@@ -45,8 +45,8 @@ class SubjectController extends Controller {
         $request->validate([
             'name'          => ['required', 'string', 'max:255'],
             'code'          => ['required', 'string', 'max:255', 'unique:subjects'],
-            'total_mark'    => ['required', 'numeric', 'max:20'],
-            'total_credit'  => ['required', 'numeric', 'max:20'],
+            'total_mark'    => ['required', 'numeric'],
+            'total_credit'  => ['required', 'numeric'],
             'inputState'    => ['required', 'string', 'max:255'],
         ]);
 
@@ -92,8 +92,8 @@ class SubjectController extends Controller {
     public function update(Request $request, Subject $subject) {
         $request->validate([
             'name'          => ['required', 'string', 'max:255'],
-            'total_mark'    => ['required', 'numeric', 'max:255'],
-            'total_credit'  => ['required', 'numeric', 'max:255'],
+            'total_mark'    => ['required', 'numeric'],
+            'total_credit'  => ['required', 'numeric'],
             'inputState'    => ['required', 'string', 'max:255'],
         ]);
 

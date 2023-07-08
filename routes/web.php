@@ -35,9 +35,13 @@ Route::middleware('auth')->group(function() {
     Route::prefix('client-panel/dashboard')->group(function() {
         Route::get('/', [ClientControllers\DashboardController::class, 'index']);
 
-        Route::get('profile', [ClientControllers\ProfileController::class, 'profile']);
-        Route::get('profile-edit', [ClientControllers\ProfileController::class, 'profile_edit']);
-        Route::get('profile-update', [ClientControllers\ProfileController::class, 'profile_update']);
+        Route::get('exams', [ClientControllers\ExamController::class, 'index']);
+        Route::get('exams/{exam}', [ClientControllers\ExamController::class, 'create']);
+        Route::post('exams/{exam}', [ClientControllers\ExamController::class, 'store']);
+
+        Route::get('my-account', [ClientControllers\ProfileController::class, 'my_account']);
+        Route::get('my-account-edit', [ClientControllers\ProfileController::class, 'my_account_edit']);
+        Route::put('my-account-update', [ClientControllers\ProfileController::class, 'my_account_update']);
     });
 });
 

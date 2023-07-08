@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('security');
             $table->string('gender')->nullable()->comment('Male, Female, Oters');
-                
+            $table->string('address')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('status')->default('active')->comment('active, inactive, blocked');
             $table->rememberToken();

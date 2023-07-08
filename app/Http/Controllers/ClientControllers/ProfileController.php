@@ -11,19 +11,19 @@ use Illuminate\Validation\Rules;
 
 class ProfileController extends Controller
 {
-    public function profile() {
+    public function my_account() {
         $client = Auth::user();
 
         return view('client_panel.profile.index', compact('client'));
     }
     
-    public function profile_edit() {
+    public function my_account_edit() {
         $client = Auth::user();
 
         return view('client_panel.profile.edit', compact('client'));
     }
 
-    public function profile_update(Request $request) {
+    public function my_account_update(Request $request) {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
