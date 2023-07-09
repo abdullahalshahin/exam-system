@@ -51,8 +51,84 @@
                                         </div>
                                     </div>
                                 </div>
-    
-                                <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam</a>
+
+                                @php
+                                    $bd_timezone = 'Asia/Dhaka';
+                                    $current_time = Carbon\Carbon::now($bd_timezone)->toDateTimeString();
+                                    $exam_start_time = $exam_paper->date_and_time;
+                                    $exam_end_time = $exam_paper->end_date_and_time;
+                                    $result_publish_time = $exam_paper->result_publish_time;
+                                    $exam_duration = $exam_paper->duration ?? 0;
+                                    
+                                    $current_timestamp = strtotime($current_time);
+                                    $exam_start_timestamp = strtotime($exam_start_time);
+                                    $exam_end_timestamp = strtotime($exam_end_time);
+                                    $result_publish_timestamp = strtotime($result_publish_time);
+                                @endphp
+
+                                {{-- @if ($exam_participant = $exam_paper->exam_participants->where('student_id', Auth::user()->id)->first())
+                                    @php
+                                        $exam_entry_time = $exam_participant->entry_time;
+                                        $exam_entry_timestamp = strtotime($exam_entry_time);
+
+                                        $end_timestamp = $exam_entry_timestamp + ($exam_duration * 60);
+                                        $reminder = $end_timestamp - $current_timestamp;
+                                    @endphp
+
+                                    @if ($reminder > 0)
+                                        <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam (Eunning)</a>
+                                    @else
+                                        @if ($current_timestamp < $result_publish_timestamp)
+                                            <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">View Result</a>
+                                        @else
+                                            @if ($current_timestamp < $exam_end_timestamp)
+                                                <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam</a>
+                                            @else
+                                                <p class="btn btn-primary">Expired!!!</p>
+                                            @endif
+                                        @endif
+                                    @endif
+                                @else
+                                    <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam</a>
+                                @endif --}}
+
+                                @if ($exam_participant = $exam_paper->exam_participants->where('student_id', Auth::user()->id)->first())
+                                    @if ($exam_participant->submit_time)
+                                        @if ($current_timestamp > $result_publish_timestamp)
+                                            <a href="{{ url('client-panel/dashboard/exams/' . $exam_paper->id . '/result') }}" class="btn btn-primary">View Result</a>
+                                        @else
+                                            <p class="btn btn-warning">Waiting For Publish!!!</p>
+                                        @endif
+                                    @else
+                                        @php
+                                            $exam_entry_time = $exam_participant->entry_time;
+                                            $exam_entry_timestamp = strtotime($exam_entry_time);
+
+                                            $end_timestamp = $exam_entry_timestamp + ($exam_duration * 60);
+                                            $reminder = $end_timestamp - $current_timestamp;
+                                        @endphp
+
+                                        @if ($reminder > 0)
+                                            <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam (Eunning)</a>
+                                        @else
+                                            @if ($current_timestamp < $result_publish_timestamp)
+                                                <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">View Result</a>
+                                            @else
+                                                <p class="btn btn-warning">Waiting For Publish!!!</p>
+                                            @endif
+                                        @endif
+                                    @endif
+                                @else
+                                    @if ($current_timestamp < $exam_end_timestamp)
+                                        @if ($current_timestamp > $exam_start_timestamp)
+                                            <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam</a>
+                                        @else
+                                            <p class="btn btn-info">Not Started Yet</p>
+                                        @endif
+                                    @else
+                                        <p class="btn btn-dark">Expired!!!</p>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     @endforeach

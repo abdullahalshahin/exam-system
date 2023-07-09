@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function() {
         Route::get('exams', [ClientControllers\ExamController::class, 'index']);
         Route::get('exams/{exam}', [ClientControllers\ExamController::class, 'create']);
         Route::post('exams/{exam}', [ClientControllers\ExamController::class, 'store']);
+        Route::get('exams/{exam}/result', [ClientControllers\ExamController::class, 'show_result']);
 
         Route::get('my-account', [ClientControllers\ProfileController::class, 'my_account']);
         Route::get('my-account-edit', [ClientControllers\ProfileController::class, 'my_account_edit']);

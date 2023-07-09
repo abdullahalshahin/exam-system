@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->foreign('subject_id')->references('id')->on('subjects');
             $table->text('description')->nullable();
             $table->timestamp('date_and_time')->nullable();
+            $table->timestamp('end_date_and_time')->nullable();
             $table->unsignedInteger('duration')->comment('minuites');
             $table->unsignedFloat('total_mark', 10, 0);
             $table->unsignedFloat('per_question_mark', 10, 0);

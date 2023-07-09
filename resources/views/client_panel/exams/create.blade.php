@@ -10,11 +10,11 @@
                             <li class="breadcrumb-item"><a href="{{ url('/') }}"> {{ config('app.name', 'Laravel') }} </a></li>
                             <li class="breadcrumb-item"><a href="{{ url('client-panel/dashboard') }}"> Dashboard </a></li>
                             <li class="breadcrumb-item"><a href="{{ url('client-panel/dashboard/exams') }}"> Exams </a></li>
-                            <li class="breadcrumb-item active"> Give Exam </li>
+                            <li class="breadcrumb-item active"> Exam Write </li>
                         </ol>
                     </div>
 
-                    <h4 class="page-title"> Give Exam </h4>
+                    <h4 class="page-title"><span id="countdown_time">{{ $exam_property_data["reminder_time"] ?? "00:00:00" }}</span> Minutes</h4>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-2">
-                            <form action="{{ url('client-panel/dashboard/exams', $exam->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ url('client-panel/dashboard/exams', $exam->id) }}" method="POST" enctype="multipart/form-data" id="answer_paper">
                                 @csrf
 
                                 <div class="text-center">
@@ -52,6 +52,9 @@
                                         <div class="text-md-start">
                                             <p class="m-0 p-0"><b>Duration: </b> {{ $exam->duration ?? "0" }} Minutes</p>
                                             <p class="m-0 p-0"><b>Total Mark: </b> {{ $exam->total_mark ?? "0" }}</p>
+                                            @if ($exam->per_question_negative_mark > 0)
+                                                <p class="m-0 p-0 text-danger"><b>Per Question Negative Mark: </b> {{ $exam->per_question_negative_mark ?? "0" }}</p>
+                                            @endif
                                         </div>
                                     </div>
     
@@ -99,7 +102,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-success"> Submit </button>
+                                        <button type="submit" class="btn btn-success" id="submit_button"> Submit </button>
                                     </div>
                                 </div>
                             </form>
@@ -109,4 +112,55 @@
             </div>
         </div>
     </div>
+    
+    <x-slot name="script">
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var targetTime = `{{ $exam_property_data["reminder_time"] ?? "00:00:03" }}`;
+                var targetSeconds = timeToSeconds(targetTime);
+                var countdownElement = document.getElementById("countdown_time");
+
+                startCountdown();
+
+                function startCountdown() {
+                    var interval = setInterval(function() {
+                        var remainingSeconds = targetSeconds--;
+
+                        if (remainingSeconds <= 0) {
+                            clearInterval(interval);
+                            countdownElement.innerHTML = "Finished!";
+
+                            document.getElementById("answer_paper").submit();
+                            return;
+                        }
+
+                        var hours = Math.floor(remainingSeconds / 3600);
+                        var minutes = Math.floor((remainingSeconds % 3600) / 60);
+                        var seconds = remainingSeconds % 60;
+
+                        var formattedTime = padZero(hours) + ":" + padZero(minutes) + ":" + padZero(seconds);
+
+                        countdownElement.innerHTML = formattedTime;
+                    }, 1000);
+                }
+
+                function timeToSeconds(time) {
+                    var parts = time.split(":");
+                    var hours = parseInt(parts[0]);
+                    var minutes = parseInt(parts[1]);
+                    var seconds = parseInt(parts[2]);
+
+                    return hours * 3600 + minutes * 60 + seconds;
+                }
+
+                function minutesToSeconds(minutes) {
+                    return minutes * 60;
+                }
+
+                function padZero(number) {
+                    return number < 10 ? "0" + number : number;
+                }
+            });
+        </script>
+    </x-slot>
 </x-client-layout>

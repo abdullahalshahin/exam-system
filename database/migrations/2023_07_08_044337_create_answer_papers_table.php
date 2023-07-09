@@ -17,7 +17,9 @@ return new class extends Migration {
             $table->foreign('exam_participant_id')->references('id')->on('exam_participants');
             $table->unsignedBigInteger('question_id')->index()->nullable();
             $table->foreign('question_id')->references('id')->on('questions');
-            $table->string('answer')->nullable();
+            $table->string('type')->default('SAQ')->comment('SAQ, MCQ, BOOLEAN, SORT_QUESTION');
+            $table->text('correct_answer')->nullable();
+            $table->string('given_answer')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

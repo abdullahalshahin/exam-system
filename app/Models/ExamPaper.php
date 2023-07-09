@@ -22,4 +22,8 @@ class ExamPaper extends Model {
     function exam_paper_assigned_questions() {
         return $this->hasManyThrough(Question::class, ExamPaperAssignedQuestion::class, 'exam_paper_id', 'id', 'id', 'question_id');
     }
+
+    function exam_participants() {
+        return $this->hasMany(ExamParticipant::class, 'exam_paper_id', 'id');
+    }
 }

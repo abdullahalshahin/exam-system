@@ -70,8 +70,9 @@
 
                                 <div class="col-md-6">
                                     <div class="text-md-end">
-                                        <p class="m-0 p-0"><b>Date: </b>{{ ($exam_paper->date_and_time) ? date('d-M-Y', strtotime($exam_paper->date_and_time)) : "" }}</p>
-                                        <p class="m-0 p-0"><b>Time: </b>{{ ($exam_paper->date_and_time) ? date('g:i:s A', strtotime($exam_paper->date_and_time)) : "" }}</p>
+                                        <p class="m-0 p-0"><b>Start Date: </b>{{ ($exam_paper->date_and_time) ? date('d-M-Y', strtotime($exam_paper->date_and_time)) : "" }}</p>
+                                        <p class="m-0 p-0"><b>Start Time: </b>{{ ($exam_paper->date_and_time) ? date('g:i:s A', strtotime($exam_paper->date_and_time)) : "" }}</p>
+                                        <p class="m-0 p-0"><b>End Date: </b>{{ ($exam_paper->end_date_and_time) ? date('d-M-Y g:i:s A', strtotime($exam_paper->end_date_and_time)) : "" }}</p>
                                     </div>
                                 </div>
                             </div>

@@ -41,6 +41,11 @@
         <input type="datetime-local" name="date_and_time" value="{{ old('date_and_time', $exam_paper->date_and_time ?? '') }}" class="form-control form-control-light" id="date_and_time" required>
     </div>
     
+    <div class="mb-2 col-md-4">
+        <label for="end_date_and_time"> End Date & Time </label>
+        <input type="datetime-local" name="end_date_and_time" value="{{ old('end_date_and_time', $exam_paper->end_date_and_time ?? '') }}" class="form-control form-control-light" id="end_date_and_time" required>
+    </div>
+    
     <div class="mb-2 col-md-2">
         <label for="duration"> Duration (Minute)</label>
         <input type="number" name="duration" value="{{ old('duration', $exam_paper->duration ?? '') }}" class="form-control form-control-light" id="duration" required>
@@ -65,7 +70,7 @@
 <div class="row">
     <div class="mb-2 col-md-4">
         <label for="result_publish_time"> Result Publish Time </label>
-        <input type="datetime-local" name="result_publish_time" value="{{ old('result_publish_time', $exam_paper->result_publish_time ?? '') }}" class="form-control form-control-light" id="result_publish_time">
+        <input type="datetime-local" name="result_publish_time" value="{{ old('result_publish_time', $exam_paper->result_publish_time ?? '') }}" class="form-control form-control-light" id="result_publish_time" required>
     </div>
 
     <div class="mb-2 col-md-4">
