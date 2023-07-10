@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
             $extension = $profile_image->getClientOriginalExtension();
 
             if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif') {
-                $destination_path = 'images/users/';
+                $destination_path = 'images/clients/';
                 $profile_image_name = date('YmdHis') . "." . $profile_image->getClientOriginalExtension();
                 $profile_image->move($destination_path, $profile_image_name);
                 $profile_image_name = "$profile_image_name";

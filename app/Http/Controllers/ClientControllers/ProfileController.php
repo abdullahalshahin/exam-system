@@ -34,13 +34,13 @@ class ProfileController extends Controller
 
         if ($profile_image = $request->file('profile_image')) {
             if ($client->profile_image) {
-                unlink('images/users/' . $client->profile_image);
+                unlink('images/clients/' . $client->profile_image);
             }
 
             $extension = $profile_image->getClientOriginalExtension();
 
             if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif') {
-                $destination_path = 'images/users/';
+                $destination_path = 'images/clients/';
                 $profile_image_name = date('YmdHis') . "." . $profile_image->getClientOriginalExtension();
                 $profile_image->move($destination_path, $profile_image_name);
                 $profile_image_name = "$profile_image_name";
@@ -58,7 +58,7 @@ class ProfileController extends Controller
             'profile_image' => $request->file('profile_image') ? $profile_image_name : $client->profile_image
         ]);
 
-        return redirect()->to('client-panel/dashboard/profile')
+        return redirect()->to('client-panel/dashboard/my-account')
             ->with('success', "Profile Update Successfully!!!");
     }
 }

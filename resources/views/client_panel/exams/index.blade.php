@@ -25,10 +25,10 @@
         @endif
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 text-center">
                 <div class="row">
                     @foreach ($exam_papers as $exam_paper)
-                        <div class="col-md-3">
+                        <div class="col-md-4 col-xxl-3">
                             <div class="card card-body">
                                 <h4 class="m-0 p-0">{{ $exam_paper->name ?? "" }}</h4>
     
@@ -39,15 +39,15 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="text-md-start">
-                                            <p class="m-0 p-0">{{ $exam_paper->duration ?? "0" }} Minutes</p>
-                                            <p class="m-0 p-0">{{ $exam_paper->total_mark ?? "0" }} Mark</p>
+                                            <p class="m-0 p-0"><b>Time: </b> {{ $exam_paper->duration ?? "0" }} Minutes</p>
+                                            <p class="m-0 p-0"><b>Start Time: </b> {{ ($exam_paper->date_and_time) ? date('d/m/Y, g:i:s A', strtotime($exam_paper->date_and_time)) : "" }}</p>
                                         </div>
                                     </div>
-    
-                                    <div class="col-md-6">
+                                    
+                                    <div class="col-md-6 mt-2">
                                         <div class="text-md-end">
-                                            <p class="m-0 p-0">{{ ($exam_paper->date_and_time) ? date('d-M-Y', strtotime($exam_paper->date_and_time)) : "" }}</p>
-                                            <p class="m-0 p-0">{{ ($exam_paper->date_and_time) ? date('g:i:s A', strtotime($exam_paper->date_and_time)) : "" }}</p>
+                                            <p class="m-0 p-0"><b>Mark: </b> {{ $exam_paper->total_mark ?? "0" }}</p>
+                                            <p class="m-0 p-0"><b>Expired Time: </b> {{ ($exam_paper->end_date_and_time) ? date('d/m/Y, g:i:s A', strtotime($exam_paper->end_date_and_time)) : "" }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -66,38 +66,12 @@
                                     $result_publish_timestamp = strtotime($result_publish_time);
                                 @endphp
 
-                                {{-- @if ($exam_participant = $exam_paper->exam_participants->where('student_id', Auth::user()->id)->first())
-                                    @php
-                                        $exam_entry_time = $exam_participant->entry_time;
-                                        $exam_entry_timestamp = strtotime($exam_entry_time);
-
-                                        $end_timestamp = $exam_entry_timestamp + ($exam_duration * 60);
-                                        $reminder = $end_timestamp - $current_timestamp;
-                                    @endphp
-
-                                    @if ($reminder > 0)
-                                        <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam (Eunning)</a>
-                                    @else
-                                        @if ($current_timestamp < $result_publish_timestamp)
-                                            <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">View Result</a>
-                                        @else
-                                            @if ($current_timestamp < $exam_end_timestamp)
-                                                <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam</a>
-                                            @else
-                                                <p class="btn btn-primary">Expired!!!</p>
-                                            @endif
-                                        @endif
-                                    @endif
-                                @else
-                                    <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">Enter Exam</a>
-                                @endif --}}
-
                                 @if ($exam_participant = $exam_paper->exam_participants->where('student_id', Auth::user()->id)->first())
                                     @if ($exam_participant->submit_time)
                                         @if ($current_timestamp > $result_publish_timestamp)
                                             <a href="{{ url('client-panel/dashboard/exams/' . $exam_paper->id . '/result') }}" class="btn btn-primary">View Result</a>
                                         @else
-                                            <p class="btn btn-warning">Waiting For Publish!!!</p>
+                                            <p class="btn btn-warning">Waiting For Result ({{ ($exam_paper->result_publish_time) ? date('g:i:s A', strtotime($exam_paper->result_publish_time)) : "" }})</p>
                                         @endif
                                     @else
                                         @php
@@ -114,7 +88,7 @@
                                             @if ($current_timestamp < $result_publish_timestamp)
                                                 <a href="{{ url('client-panel/dashboard/exams', $exam_paper->id) }}" class="btn btn-primary">View Result</a>
                                             @else
-                                                <p class="btn btn-warning">Waiting For Publish!!!</p>
+                                                <p class="btn btn-warning">Waiting For Result ({{ ($exam_paper->result_publish_time) ? date('g:i:s A', strtotime($exam_paper->result_publish_time)) : "" }})</p>
                                             @endif
                                         @endif
                                     @endif

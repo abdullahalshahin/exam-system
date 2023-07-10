@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="page_title">{{ $page_title ?? 'Exam Papers' }}</x-slot>
+    <x-slot name="page_title">{{ $page_title ?? 'Students' }}</x-slot>
 
     <x-slot name="style">
         <link href="{{ asset('assets/css/vendor/dataTables.bootstrap5.css') }}" rel="stylesheet" type="text/css" />
@@ -14,11 +14,11 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}"> {{ config('app.name', 'Laravel') }} </a></li>
                             <li class="breadcrumb-item"><a href="{{ url('admin-panel/dashboard') }}"> Dashboard </a></li>
-                            <li class="breadcrumb-item active"> Exam Paper List </li>
+                            <li class="breadcrumb-item active">Students</li>
                         </ol>
                     </div>
 
-                    <h4 class="page-title"> Exam Papers </h4>
+                    <h4 class="page-title"> Student List </h4>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-sm-4">
-                                <a href="{{ url('admin-panel/dashboard/exam-papers/create') }}" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Create Exam Paper </a>
+                                <a href="{{ url('admin-panel/dashboard/students/create') }}" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Add Student </a>
                             </div>
                         </div>
 
@@ -44,37 +44,40 @@
                                 <thead>
                                     <tr>
                                         <th> SL </th>
-                                        <th> Name </th>
-                                        <th> Subject </th>
-                                        <th> Start Date </th>
-                                        <th> End Date </th>
-                                        <th> Duration </th>
-                                        <th> Total Mark </th>
+                                        <th> User </th>
+                                        <th> Mobile Number </th>
+                                        <th> Email </th>
                                         <th> Status </th>
                                         <th style="width: 75px;"> Action </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($exam_papers as $exam_paper)
+                                    @foreach ($students as $student)
                                         <tr>
                                             <td> {{ ++$i }} </td>
-                                            <td> {{ substr($exam_paper->name, 0, 15) ?? '' }}... </td>
-                                            <td> {{ $exam_paper->subject->name ?? '' }} </td>
-                                            <td> {{ ($exam_paper->date_and_time) ? date('d-M-Y, g:i:s A', strtotime($exam_paper->date_and_time)) : "" }} </td>
-                                            <td> {{ ($exam_paper->end_date_and_time) ? date('d-M-Y, g:i:s A', strtotime($exam_paper->end_date_and_time)) : "" }} </td>
-                                            <td> {{ $exam_paper->duration ?? '' }} </td>
-                                            <td> {{ $exam_paper->total_mark ?? '' }} </td>
+                                            <td class="table-user">
+                                                @if ($student->profile_image)
+                                                    <img src="/images/clients/{{ $student->profile_image }}" alt="table-user" class="me-2 rounded-circle">
+                                                @else
+                                                    <img src="{{ asset('assets/images/avator.png') }}" alt="table-user" class="me-2 rounded-circle">
+                                                @endif
+                                                <a href="javascript:void(0);" class="text-body fw-semibold">{{ $student->name ?? '' }}</a>
+                                            </td>
+                                            <td> {{ $student->mobile_number ?? '' }} </td>
+                                            <td> {{ $student->email ?? '' }} </td>
                                             <td>
-                                                @if ($exam_paper->status == "Active")
+                                                @if ($student->status == "active")
                                                     <span class="badge badge-success-lighten">Active</span>
-                                                @elseif ($exam_paper->status == "Inactive")
+                                                @elseif ($student->status == "inactive")
                                                     <span class="badge badge-warning-lighten">Inactive</span>
+                                                @elseif ($student->status == "blocked")
+                                                    <span class="badge badge-danger-lighten">Blocked</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                <form action="{{ url('admin-panel/dashboard/exam-papers', $exam_paper->id) }}" method="POST">
-                                                    <a href="{{ url('admin-panel/dashboard/exam-papers', $exam_paper->id) }}" class="action-icon" id="view_button"> <i class="mdi mdi-eye"></i></a>
-                                                    <a href="{{ url('admin-panel/dashboard/exam-papers/' . $exam_paper->id . '/edit') }}" class="action-icon" id="edit_button"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                                <form action="{{ url('admin-panel/dashboard/students', $student->id) }}" method="POST">
+                                                    <a href="{{ url('admin-panel/dashboard/students', $student->id) }}" class="action-icon" id="view_button"> <i class="mdi mdi-eye"></i></a>
+                                                    <a href="{{ url('admin-panel/dashboard/students/' . $student->id . '/edit') }}" class="action-icon" id="edit_button"> <i class="mdi mdi-square-edit-outline"></i></a>
 
                                                     @csrf
                                                     @method('DELETE')
@@ -97,11 +100,11 @@
     <x-slot name="script">
         <script src="{{ asset('assets/js/vendor/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendor/dataTables.bootstrap5.js') }}"></script>
-        {{-- <script src="{{ asset('assets/js/vendor/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/js/vendor/dataTables.responsive.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendor/responsive.bootstrap5.min.js') }}"></script>
-        <script src="{{ asset('assets/js/vendor/dataTables.checkboxes.min.js') }}"></script> --}}
+        <script src="{{ asset('assets/js/vendor/dataTables.checkboxes.min.js') }}"></script>
 
-        <script src="{{ asset('assets/js/pages/demo.exam_papers.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/demo.students.js') }}"></script>
 
         <script type="text/javascript">
             $(document).ready(function() {

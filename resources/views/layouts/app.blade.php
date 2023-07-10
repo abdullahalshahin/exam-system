@@ -81,6 +81,13 @@
                                 <span> Exam Papers </span>
                             </a>
                         </li>
+                        
+                        <li class="side-nav-item">
+                            <a href="{{ url('admin-panel/dashboard/exam-results') }}" class="side-nav-link">
+                                <i class="uil-clipboard-alt"></i>
+                                <span> Exam Results </span>
+                            </a>
+                        </li>
 
                         <li class="side-nav-title side-nav-item">System</li>
 
@@ -99,10 +106,6 @@
 
                                     <li>
                                         <a href="{{ url('admin-panel/dashboard/students') }}"> Students </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="{{ url('admin-panel/dashboard/roles') }}"> Roles </a>
                                     </li>
                                 </ul>
                             </div>
@@ -137,12 +140,16 @@
                             <li class="dropdown notification-list">
                                 <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                     aria-expanded="false">
-                                    <span class="account-user-avatar"> 
-                                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="user-image" class="rounded-circle">
+                                    <span class="account-user-avatar">
+                                        @if (Auth::user()->profile_image)
+                                            <img src="/images/users/{{ Auth::user()->profile_image }}" alt="client-image" class="rounded-circle">
+                                        @else
+                                            <img src="{{ asset('assets/images/avator.png') }}" alt="user-image" class="rounded-circle">
+                                        @endif
                                     </span>
                                     <span>
-                                        <span class="account-user-name">Dominic Keller</span>
-                                        <span class="account-position">Founder</span>
+                                        <span class="account-user-name">{{ Auth::user()->name ?? "" }}</span>
+                                        <span class="account-position">Admin</span>
                                     </span>
                                 </a>
 
@@ -151,14 +158,9 @@
                                         <h6 class="text-overflow m-0">Welcome !</h6>
                                     </div>
 
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <a href="{{ url('admin-panel/dashboard/users', Auth::user()->id) }}" class="dropdown-item notify-item">
                                         <i class="mdi mdi-account-circle me-1"></i>
                                         <span>My Account</span>
-                                    </a>
-
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-account-edit me-1"></i>
-                                        <span>Settings</span>
                                     </a>
 
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
@@ -166,15 +168,14 @@
                                         <span>Support</span>
                                     </a>
 
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-lock-outline me-1"></i>
-                                        <span>Lock Screen</span>
-                                    </a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
 
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-logout me-1"></i>
-                                        <span>Logout</span>
-                                    </a>
+                                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="dropdown-item notify-item">
+                                            <i class="mdi mdi-logout me-1"></i>
+                                            <span>Logout</span>
+                                        </a>
+                                    </form>
                                 </div>
                             </li>
                         </ul>

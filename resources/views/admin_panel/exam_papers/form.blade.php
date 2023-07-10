@@ -42,7 +42,7 @@
     </div>
     
     <div class="mb-2 col-md-4">
-        <label for="end_date_and_time"> End Date & Time </label>
+        <label for="end_date_and_time"> Expired Date & Time </label>
         <input type="datetime-local" name="end_date_and_time" value="{{ old('end_date_and_time', $exam_paper->end_date_and_time ?? '') }}" class="form-control form-control-light" id="end_date_and_time" required>
     </div>
     

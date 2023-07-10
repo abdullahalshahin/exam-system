@@ -26,15 +26,15 @@ class ExamController extends Controller
 
     public function create(ExamPaper $exam) {
         $bd_timezone = 'Asia/Dhaka';
+        $current_timestamp = Carbon::now($bd_timezone)->toDateTimeString();
+        $exam_duration = $exam->duration ?? 0;
+        
         $exam_participant = ExamParticipant::query()
             ->where([
                 ['student_id', Auth::user()->id],
                 ['exam_paper_id', $exam->id]
             ])
             ->first();
-        
-        $exam_duration = $exam->duration;
-        $current_timestamp = Carbon::now($bd_timezone)->toDateTimeString();
         
         if ($exam_participant) {
             $exam_participant_entry_time = $exam_participant->entry_time;

@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index() {
-        $exam_papers = ExamPaper::query()
-            ->where('status', "active")
-            ->latest()
-            ->get();
-
-        return view('client_panel.dashboard.index', compact('exam_papers'));
+        return view('client_panel.dashboard.index');
     }
 }
