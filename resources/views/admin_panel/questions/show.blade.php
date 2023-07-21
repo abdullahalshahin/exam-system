@@ -37,15 +37,33 @@
 
                                 <p class="text-muted mb-2 font-13"><strong> Title : </strong><span class="ms-2"> {{ $question->title ?? "" }} </span></p>
 
-                                <p class="text-muted mb-2 font-13"><strong> ption A : </strong> <span class="ms-2 "> {{ $question->option_a ?? "" }} </span></p>
+                                @if ($question->type == "SAQ")
+                                    <p class="text-muted mb-2 font-13"><strong> ption A : </strong> <span class="ms-2 "> {{ $question->option_a ?? "" }} </span></p>
 
-                                <p class="text-muted mb-2 font-13"><strong> Option B : </strong> <span class="ms-2 "> {{ $question->option_b ?? "" }} </span></p>
+                                    <p class="text-muted mb-2 font-13"><strong> Option B : </strong> <span class="ms-2 "> {{ $question->option_b ?? "" }} </span></p>
 
-                                <p class="text-muted mb-2 font-13"><strong> Option C : </strong> <span class="ms-2 "> {{ $question->option_c ?? "" }} </span></p>
+                                    <p class="text-muted mb-2 font-13"><strong> Option C : </strong> <span class="ms-2 "> {{ $question->option_c ?? "" }} </span></p>
 
-                                <p class="text-muted mb-2 font-13"><strong> Option D : </strong> <span class="ms-2 "> {{ $question->option_d ?? "" }} </span></p>
+                                    <p class="text-muted mb-2 font-13"><strong> Option D : </strong> <span class="ms-2 "> {{ $question->option_d ?? "" }} </span></p>
 
-                                <p class="text-muted mb-2 font-13"><strong> Correct Answer : </strong> <span class="ms-2 "> {{ $question->correct_answer ?? "" }} </span></p>
+                                    <p class="text-muted mb-2 font-13"><strong> Correct Answer : </strong> <span class="ms-2 "> {{ $question->correct_answer ?? "" }} </span></p>
+                                @elseif($question->type == "MCQ")
+                                    <p class="text-muted mb-2 font-13"><strong> ption A : </strong> <span class="ms-2 "> {{ $question->option_a ?? "" }} </span></p>
+
+                                    <p class="text-muted mb-2 font-13"><strong> Option B : </strong> <span class="ms-2 "> {{ $question->option_b ?? "" }} </span></p>
+
+                                    <p class="text-muted mb-2 font-13"><strong> Option C : </strong> <span class="ms-2 "> {{ $question->option_c ?? "" }} </span></p>
+
+                                    <p class="text-muted mb-2 font-13"><strong> Option D : </strong> <span class="ms-2 "> {{ $question->option_d ?? "" }} </span></p>
+
+                                    <p class="text-muted mb-2 font-13"><strong> Option E : </strong> <span class="ms-2 "> {{ $question->option_e ?? "" }} </span></p>
+
+                                    <p class="text-muted mb-2 font-13"><strong> Correct Answer : </strong> <span class="ms-2 "> {{ $question->correct_answer ?? "" }} </span></p>
+                                @elseif($question->type == "BOOLEAN")
+                                    <p class="text-muted mb-2 font-13"><strong> Correct Answer : </strong> <span class="ms-2 "> {{ $question->correct_answer ?? "" }} </span></p>
+                                @elseif($question->type == "SORT_QUESTION")
+                                    <p class="text-muted mb-2 font-13"><strong> Correct Answer : </strong> <span class="ms-2 "> {{ $question->correct_answer ?? "" }} </span></p>
+                                @endif
 
                                 <p class="text-muted mb-2 font-13"><strong> Reference : </strong> <span class="ms-2 "> {{ $question->reference ?? "" }} </span></p>
 

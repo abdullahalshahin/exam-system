@@ -50,11 +50,31 @@ class SubjectController extends Controller {
             'inputState'    => ['required', 'string', 'max:255'],
         ]);
 
+        if ($module_file = $request->file('module_file')) {
+            $module_file_extension = $module_file->getClientOriginalExtension();
+
+            $destination_path = 'subjects/';
+            $module_file_name = "module_file" . "_" .date('YmdHis') . "." . $module_file_extension;
+            $module_file->move($destination_path, $module_file_name);
+            $module_file_name = "$module_file_name";
+        }
+
+        if ($lecturer_sheet_file = $request->file('lecturer_sheet_file')) {
+            $lecturer_sheet_file_extension = $lecturer_sheet_file->getClientOriginalExtension();
+
+            $destination_path = 'subjects/';
+            $lecturer_sheet_file_name = "lecturer_sheet_file" . "_" .date('YmdHis') . "." . $lecturer_sheet_file_extension;
+            $lecturer_sheet_file->move($destination_path, $lecturer_sheet_file_name);
+            $lecturer_sheet_file_name = "$lecturer_sheet_file_name";
+        }
+
         Subject::create([
             'name'          => $request->name,
             'code'          => $request->code,
             'total_mark'    => $request->total_mark,
             'total_credit'  => $request->total_credit,
+            'module_file'   => ($request->file('module_file')) ? $module_file_name : NULL,
+            'lecturer_sheet_file' => ($request->file('lecturer_sheet_file')) ? $lecturer_sheet_file_name : NULL,
             'status'        => $request->inputState,
         ]);
 
@@ -97,10 +117,30 @@ class SubjectController extends Controller {
             'inputState'    => ['required', 'string', 'max:255'],
         ]);
 
+        if ($module_file = $request->file('module_file')) {
+            $module_file_extension = $module_file->getClientOriginalExtension();
+
+            $destination_path = 'subjects/';
+            $module_file_name = "module_file" . "_" .date('YmdHis') . "." . $module_file_extension;
+            $module_file->move($destination_path, $module_file_name);
+            $module_file_name = "$module_file_name";
+        }
+
+        if ($lecturer_sheet_file = $request->file('lecturer_sheet_file')) {
+            $lecturer_sheet_file_extension = $lecturer_sheet_file->getClientOriginalExtension();
+
+            $destination_path = 'subjects/';
+            $lecturer_sheet_file_name = "lecturer_sheet_file" . "_" .date('YmdHis') . "." . $lecturer_sheet_file_extension;
+            $lecturer_sheet_file->move($destination_path, $lecturer_sheet_file_name);
+            $lecturer_sheet_file_name = "$lecturer_sheet_file_name";
+        }
+
         $subject->update([
             'name'          => $request->name,
             'total_mark'    => $request->total_mark,
             'total_credit'  => $request->total_credit,
+            'module_file'   => ($request->file('module_file')) ? $module_file_name :  $subject->module_file,
+            'lecturer_sheet_file' => ($request->file('lecturer_sheet_file')) ? $lecturer_sheet_file_name :  $subject->lecturer_sheet_file,
             'status'        => $request->inputState,
         ]);
 

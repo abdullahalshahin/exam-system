@@ -38,6 +38,22 @@
                                 <p class="text-muted mb-2 font-13"><strong>Total Mark :</strong><span class="ms-2">{{ $subject->total_mark ?? "" }}</span></p>
     
                                 <p class="text-muted mb-2 font-13"><strong>Total Credit :</strong> <span class="ms-2 ">{{ $subject->total_credit ?? "" }}</span></p>
+
+                                @if ( $subject->module_file)
+                                    <p class="text-muted mb-2 font-13"><strong>Module :</strong>
+                                        <span class="ms-2">
+                                            <a href="{{ url('subjects', $subject->module_file ?? '') }}">{{ $subject->module_file ?? '' }}</a>
+                                        </span>
+                                    </p>
+                                @endif
+
+                                @if ( $subject->lecturer_sheet_file)
+                                    <p class="text-muted mb-2 font-13"><strong>Lecturer Sheet :</strong>
+                                        <span class="ms-2">
+                                            <a href="{{ url('subjects', $subject->lecturer_sheet_file ?? '') }}">{{ $subject->lecturer_sheet_file ?? '' }}</a>
+                                        </span>
+                                    </p>
+                                @endif
     
                                 <p class="text-muted mb-1 font-13"><strong>Status :</strong> <span class="ms-2">{{ $subject->status ?? "" }}</span></p>
                             </div>

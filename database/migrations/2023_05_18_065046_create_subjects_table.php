@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string('code')->unique()->nullable();
             $table->string('total_mark')->nullable();
             $table->string('total_credit')->nullable();
+            $table->string('module_file')->nullable();
+            $table->string('lecturer_sheet_file')->nullable();
             $table->string('status')->default('active')->comment('active, inactive');
             $table->timestamps();
             $table->softDeletes();

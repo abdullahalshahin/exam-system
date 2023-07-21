@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Subject extends Model {
     use HasFactory;
 
-    protected $fillable = [
-        'name', 'code', 'total_mark', 'total_credit', 'status'
-    ];
+    protected $guarded = [];
 
     public function questions() {
         return $this->hasMany(Question::class, 'subject_id', 'id');

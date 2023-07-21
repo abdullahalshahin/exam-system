@@ -50,19 +50,19 @@ class QuestionController extends Controller {
     public function store(Request $request) {
         $request->validate([
             'subject_id'        => ['required', 'numeric', 'max:20'],
-            // 'type'              => ['required', 'string', 'max:255'],
+            'type'              => ['required', 'string', 'max:255'],
             'title'             => ['required', 'string'],
-            'option_a'          => ['required', 'string', 'max:255'],
-            'option_b'          => ['required', 'string', 'max:255'],
-            'option_c'          => ['required', 'string', 'max:255'],
-            'option_d'          => ['required', 'string', 'max:255'],
+            // 'option_a'          => ['required', 'string', 'max:255'],
+            // 'option_b'          => ['required', 'string', 'max:255'],
+            // 'option_c'          => ['required', 'string', 'max:255'],
+            // 'option_d'          => ['required', 'string', 'max:255'],
             'correct_answer'    => ['required', 'string'],
             'inputState'        => ['required', 'string', 'max:255'],
         ]);
 
         Question::create([
             'subject_id'        => $request->subject_id,
-            // 'type'              => $request->type,
+            'type'              => $request->type,
             'title'             => $request->title,
             'option_a'          => $request->option_a,
             'option_b'          => $request->option_b,
@@ -109,19 +109,19 @@ class QuestionController extends Controller {
     public function update(Request $request, Question $question) {
         $request->validate([
             'subject_id'        => ['required', 'numeric', 'max:20'],
-            // 'type'              => ['required', 'string', 'max:255'],
+            'type'              => ['required', 'string', 'max:255'],
             'title'             => ['required', 'string'],
-            'option_a'          => ['required', 'string', 'max:255'],
-            'option_b'          => ['required', 'string', 'max:255'],
-            'option_c'          => ['required', 'string', 'max:255'],
-            'option_d'          => ['required', 'string', 'max:255'],
+            // 'option_a'          => ['required', 'string', 'max:255'],
+            // 'option_b'          => ['required', 'string', 'max:255'],
+            // 'option_c'          => ['required', 'string', 'max:255'],
+            // 'option_d'          => ['required', 'string', 'max:255'],
             'correct_answer'    => ['required', 'string'],
             'inputState'        => ['required', 'string', 'max:255'],
         ]);
 
         $question->update([
             'subject_id'        => $request->subject_id,
-            // 'type'              => $request->type,
+            'type'              => $request->type,
             'title'             => $request->title,
             'option_a'          => $request->option_a,
             'option_b'          => $request->option_b,

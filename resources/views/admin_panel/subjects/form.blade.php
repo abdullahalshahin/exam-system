@@ -23,6 +23,30 @@
 </div>
 
 <div class="row g-2">
+    <div class="mb-3 col-md-6">
+        <label for="module_file"> Module </label>
+        <input type="file" name="module_file" id="module_file" class="form-control">
+    </div>
+
+    <div class="mb-3 col-md-6">
+        <label for="lecturer_sheet_file"> Lecturer Sheet </label>
+        <input type="file" name="lecturer_sheet_file" id="lecturer_sheet_file" class="form-control">
+    </div>
+</div>
+
+@if (Request::segment(5) == "edit")
+    <div class="row g-2">
+        <div class="mt-0 mb-2 col-md-6">
+            <a href="{{ url('subjects', $subject->module_file ?? '') }}">{{ $subject->module_file ?? '' }}</a>
+        </div>
+
+        <div class="mt-0 mb-2 col-md-6">
+            <a href="{{ url('subjects', $subject->lecturer_sheet_file ?? '') }}">{{ $subject->lecturer_sheet_file ?? '' }}</a>
+        </div>
+    </div>
+@endif
+
+<div class="row g-2">
     <div class="mb-3 col-md-4">
         <label for="inputState">Status</label>
         <select id="inputState" name="inputState" class="form-select" required>
