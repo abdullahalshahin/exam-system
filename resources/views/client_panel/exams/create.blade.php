@@ -69,33 +69,100 @@
                                 <div class="text-start mt-3">
                                     <div class="row mb-3">
                                         @forelse ($exam->exam_paper_assigned_questions as $key => $question)
-                                            <div class="col-md-12 mb-1">
-                                                <div class="border p-3 rounded mb-3 mb-md-0">
-                                                    <h5>{{ ++$key }}. {{ $question->title ?? "" }}</h5>
+                                            @if ($question->type == "SAQ")
+                                                <div class="col-md-12 mb-1">
+                                                    <div class="border p-3 rounded mb-3 mb-md-0">
+                                                        <h5>{{ ++$key }}. {{ $question->title ?? "" }}</h5>
 
-                                                    <div class="mt-3">
-                                                        <div class="form-check">
-                                                            <input type="radio" id="question_id_{{ $question->id }}_option_a" name="answers[{{ $question->id }}]" value="A" class="form-check-input">
-                                                            <label class="form-check-label" for="question_id_{{ $question->id }}_option_a">A. {{ $question->option_a ?? "" }}</label>
-                                                        </div>
+                                                        <div class="mt-3">
+                                                            <div class="form-check">
+                                                                <input type="radio" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_a" name="answers[{{ $question->id }}]" value="A" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_a">A. {{ $question->option_a ?? "" }}</label>
+                                                            </div>
 
-                                                        <div class="form-check">
-                                                            <input type="radio" id="question_id_{{ $question->id }}_option_b" name="answers[{{ $question->id }}]" value="B" class="form-check-input">
-                                                            <label class="form-check-label" for="question_id_{{ $question->id }}_option_b">B. {{ $question->option_b ?? "" }}</label>
-                                                        </div>
+                                                            <div class="form-check">
+                                                                <input type="radio" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_b" name="answers[{{ $question->id }}]" value="B" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_b">B. {{ $question->option_b ?? "" }}</label>
+                                                            </div>
 
-                                                        <div class="form-check">
-                                                            <input type="radio" id="question_id_{{ $question->id }}_option_c" name="answers[{{ $question->id }}]" value="C" class="form-check-input">
-                                                            <label class="form-check-label" for="question_id_{{ $question->id }}_option_c">C. {{ $question->option_c ?? "" }}</label>
-                                                        </div>
+                                                            <div class="form-check">
+                                                                <input type="radio" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_c" name="answers[{{ $question->id }}]" value="C" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_c">C. {{ $question->option_c ?? "" }}</label>
+                                                            </div>
 
-                                                        <div class="form-check">
-                                                            <input type="radio" id="question_id_{{ $question->id }}_option_d" name="answers[{{ $question->id }}]" value="D" class="form-check-input">
-                                                            <label class="form-check-label" for="question_id_{{ $question->id }}_option_d">D. {{ $question->option_d ?? "" }}</label>
-                                                        </div>
-                                                    </div> 
+                                                            <div class="form-check">
+                                                                <input type="radio" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_d" name="answers[{{ $question->id }}]" value="D" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_d">D. {{ $question->option_d ?? "" }}</label>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @elseif($question->type == "MCQ")
+                                                <div class="col-md-12 mb-1">
+                                                    <div class="border p-3 rounded mb-3 mb-md-0">
+                                                        <h5>{{ ++$key }}. {{ $question->title ?? "" }}</h5>
+
+                                                        <div class="mt-3">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_a" name="answers[{{ $question->id }}][]" value="A" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_a">A. {{ $question->option_a ?? "" }}</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input type="checkbox" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_b" name="answers[{{ $question->id }}][]" value="B" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_b">B. {{ $question->option_b ?? "" }}</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input type="checkbox" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_c" name="answers[{{ $question->id }}][]" value="C" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_c">C. {{ $question->option_c ?? "" }}</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input type="checkbox" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_d" name="answers[{{ $question->id }}][]" value="D" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_d">D. {{ $question->option_d ?? "" }}</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input type="checkbox" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_e" name="answers[{{ $question->id }}][]" value="E" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_e">E. {{ $question->option_e ?? "" }}</label>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            @elseif($question->type == "BOOLEAN")
+                                                <div class="col-md-12 mb-1">
+                                                    <div class="border p-3 rounded mb-3 mb-md-0">
+                                                        <h5>{{ ++$key }}. {{ $question->title ?? "" }}</h5>
+
+                                                        <div class="mt-3">
+                                                            <div class="form-check">
+                                                                <input type="radio" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_a" name="answers[{{ $question->id }}]" value="true" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_a">True</label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input type="radio" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_b" name="answers[{{ $question->id }}]" value="false" class="form-check-input">
+                                                                <label class="form-check-label" for="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}_option_b">False</label>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            @elseif($question->type == "SORT_QUESTION")
+                                                <div class="col-md-12 mb-1">
+                                                    <div class="border p-3 rounded mb-3 mb-md-0">
+                                                        <h5>{{ ++$key }}. {{ $question->title ?? "" }}</h5>
+
+                                                        <div class="mt-0">
+                                                            <div class="row">
+                                                                <div class="mb-0 col-md-12">
+                                                                    <textarea name="answers[{{ $question->id }}]" class="form-control answer_text_area" id="exam_id_{{ $exam->id }}_question_id_{{ $question->id }}" rows="6"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            @endif
                                         @empty
                                             <p class="text-center">Question Not Found !!!</p>
                                         @endforelse
@@ -160,6 +227,22 @@
                 function padZero(number) {
                     return number < 10 ? "0" + number : number;
                 }
+
+                const answerTextAreas = document.querySelectorAll('.answer_text_area');
+
+                answerTextAreas.forEach(textArea => {
+                    textArea.addEventListener('copy', (e) => {
+                        e.preventDefault();
+                    });
+
+                    textArea.addEventListener('cut', (e) => {
+                        e.preventDefault();
+                    });
+
+                    textArea.addEventListener('paste', (e) => {
+                        e.preventDefault();
+                    });
+                });
             });
         </script>
     </x-slot>

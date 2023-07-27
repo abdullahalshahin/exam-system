@@ -80,6 +80,7 @@ class ExamController extends Controller
     }
 
     public function store(Request $request, ExamPaper $exam) {
+        return $request;
         $bd_timezone = 'Asia/Dhaka';
         $exam_participant = ExamParticipant::query()
             ->where([

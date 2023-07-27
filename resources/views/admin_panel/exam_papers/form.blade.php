@@ -85,22 +85,58 @@
 
 <div class="row">
     @forelse ($questions as $question)
-        <div class="col-lg-6 col-xxl-3">
-            <div class="border p-3 rounded mb-3 mb-md-0">
-                <div class="form-check">
-                    <input type="checkbox" id="question_id_{{ $question->id }}" name="selected_questions[]" value="{{ $question->id }}" class="form-check-input" {{ in_array($question->id, $assigned_question_ids) ? 'checked' : '' }}>
-                    <label class="form-check-label font-16 fw-bold" for="question_id_{{ $question->id }}">{{ $question->title ?? "" }}</label>
-                </div>
+        @if ($question->type == "SAQ")
+            <div class="col-lg-6 col-xxl-3">
+                <div class="border p-3 rounded mb-3 mb-md-0">
+                    <div class="form-check">
+                        <input type="checkbox" id="question_id_{{ $question->id }}" name="selected_questions[]" value="{{ $question->id }}" class="form-check-input" {{ in_array($question->id, $assigned_question_ids) ? 'checked' : '' }}>
+                        <label class="form-check-label font-16 fw-bold" for="question_id_{{ $question->id }}">{{ $question->title ?? "" }}</label>
+                    </div>
 
-                <p class="m-0 p-0">A. {{ $question->option_a ?? "" }}</p>
-                <p class="m-0 p-0">B. {{ $question->option_b ?? "" }}</p>
-                <p class="m-0 p-0">C. {{ $question->option_c ?? "" }}</p>
-                <p class="m-0 p-0">D. {{ $question->option_d ?? "" }}</p>
-                @if ($question->option_e)
-                    <p class="m-0 p-0">E. {{ $question->option_e ?? "" }}</p>
-                @endif
+                    <p class="m-0 p-0">A. {{ $question->option_a ?? "" }}</p>
+                    <p class="m-0 p-0">B. {{ $question->option_b ?? "" }}</p>
+                    <p class="m-0 p-0">C. {{ $question->option_c ?? "" }}</p>
+                    <p class="m-0 p-0">D. {{ $question->option_d ?? "" }}</p>
+                </div>
             </div>
-        </div>
+        @elseif($question->type == "MCQ")
+            <div class="col-lg-6 col-xxl-3">
+                <div class="border p-3 rounded mb-3 mb-md-0">
+                    <div class="form-check">
+                        <input type="checkbox" id="question_id_{{ $question->id }}" name="selected_questions[]" value="{{ $question->id }}" class="form-check-input" {{ in_array($question->id, $assigned_question_ids) ? 'checked' : '' }}>
+                        <label class="form-check-label font-16 fw-bold" for="question_id_{{ $question->id }}">{{ $question->title ?? "" }}</label>
+                    </div>
+
+                    <p class="m-0 p-0">A. {{ $question->option_a ?? "" }}</p>
+                    <p class="m-0 p-0">B. {{ $question->option_b ?? "" }}</p>
+                    <p class="m-0 p-0">C. {{ $question->option_c ?? "" }}</p>
+                    <p class="m-0 p-0">D. {{ $question->option_d ?? "" }}</p>
+                    <p class="m-0 p-0">E. {{ $question->option_e ?? "" }}</p>
+                </div>
+            </div>
+        @elseif($question->type == "BOOLEAN")
+            <div class="col-lg-6 col-xxl-3">
+                <div class="border p-3 rounded mb-3 mb-md-0">
+                    <div class="form-check">
+                        <input type="checkbox" id="question_id_{{ $question->id }}" name="selected_questions[]" value="{{ $question->id }}" class="form-check-input" {{ in_array($question->id, $assigned_question_ids) ? 'checked' : '' }}>
+                        <label class="form-check-label font-16 fw-bold" for="question_id_{{ $question->id }}">{{ $question->title ?? "" }}</label>
+                    </div>
+
+                    <p class="m-0 p-0">{{ $question->correct_answer ?? "" }}</p>
+                </div>
+            </div>
+        @elseif($question->type == "SORT_QUESTION")
+            <div class="col-lg-6 col-xxl-3">
+                <div class="border p-3 rounded mb-3 mb-md-0">
+                    <div class="form-check">
+                        <input type="checkbox" id="question_id_{{ $question->id }}" name="selected_questions[]" value="{{ $question->id }}" class="form-check-input" {{ in_array($question->id, $assigned_question_ids) ? 'checked' : '' }}>
+                        <label class="form-check-label font-16 fw-bold" for="question_id_{{ $question->id }}">{{ $question->title ?? "" }}</label>
+                    </div>
+
+                    <p class="m-0 p-0">{{ $question->correct_answer ?? "" }}</p>
+                </div>
+            </div>
+        @endif
     @empty
         <p class="text-center">Question Not Found !!!</p>
     @endforelse
