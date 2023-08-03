@@ -30,7 +30,7 @@ class ResultController extends Controller
     function show_exam_participant(ExamPaper $exam_paper, ExamParticipant $exam_participant) {
         $total_participation = ExamParticipant::where('exam_paper_id', $exam_paper->id)->count();
         $position = ExamParticipant::where('exam_paper_id', $exam_paper->id)
-                ->where('obtained_marks', '>', $exam_participant->obtained_marks)
+                ->where('obtained_marks', '>', $exam_participant->obtained_marks ?? 0)
                 ->count() + 1;
 
         return view('admin_panel.results.exam_participant_result', compact('exam_paper', 'exam_participant', 'total_participation', 'position'));

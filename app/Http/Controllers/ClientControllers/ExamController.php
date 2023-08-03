@@ -80,7 +80,6 @@ class ExamController extends Controller
     }
 
     public function store(Request $request, ExamPaper $exam) {
-        return $request;
         $bd_timezone = 'Asia/Dhaka';
         $exam_participant = ExamParticipant::query()
             ->where([
@@ -107,32 +106,43 @@ class ExamController extends Controller
                 }
                 
                 foreach ($request->answers as $question_id => $answer) {
-                    $answer_paper = AnswerPaper::updateOrCreate(
-                        [
-                            'exam_participant_id' => $exam_participant->id,
-                            'question_id' => $question_id
-                        ], [
-                            'given_answer' => $answer
-                        ]
-                    );
-    
-                    if ($answer === $answer_paper->correct_answer) {
-                        $obtained_marks += $per_question_mark;
+                    if (is_array($answer)) {
+                        $answer_paper = AnswerPaper::updateOrCreate(
+                            [
+                                'exam_participant_id' => $exam_participant->id,
+                                'question_id' => $question_id
+                            ], [
+                                'given_answer' => json_encode($answer)
+                            ]
+                        );
                     } else {
-                        $obtained_marks -= $per_question_negative_mark;
-                        $negative_marks += $per_question_negative_mark;
+                        $answer_paper = AnswerPaper::updateOrCreate(
+                            [
+                                'exam_participant_id' => $exam_participant->id,
+                                'question_id' => $question_id
+                            ], [
+                                'given_answer' => $answer
+                            ]
+                        );
                     }
+    
+                    // if ($answer === $answer_paper->correct_answer) {
+                    //     $obtained_marks += $per_question_mark;
+                    // } else {
+                    //     $obtained_marks -= $per_question_negative_mark;
+                    //     $negative_marks += $per_question_negative_mark;
+                    // }
                 }
             }
 
             $exam_participant->update([
                 'submit_time' => Carbon::now($bd_timezone)->toDateTimeString(),
-                'obtained_marks' => $obtained_marks,
-                'negative_marks' => $negative_marks
+                // 'obtained_marks' => $obtained_marks,
+                // 'negative_marks' => $negative_marks
             ]);
 
             return redirect()->to('client-panel/dashboard/exams')
-            ->with('success', 'Submited Successfully!!!');
+                ->with('success', 'Submited Successfully!!!');
         }
         else {
             return abort(404);
@@ -150,7 +160,7 @@ class ExamController extends Controller
         if ($exam_participant) {
             $total_participation = ExamParticipant::where('exam_paper_id', $exam->id)->count();
             $my_position = ExamParticipant::where('exam_paper_id', $exam->id)
-                ->where('obtained_marks', '>', $exam_participant->obtained_marks)
+                ->where('obtained_marks', '>', $exam_participant->obtained_marks ?? 0)
                 ->count() + 1;
 
             return view('client_panel.exams.show_result', compact('exam', 'exam_participant', 'total_participation', 'total_participation', 'my_position'));

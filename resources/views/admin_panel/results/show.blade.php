@@ -59,12 +59,16 @@
                                             @php
                                                 $position = App\Models\ExamParticipant::query()
                                                     ->where('exam_paper_id', $exam_paper->id)
-                                                    ->where('obtained_marks', '>', $exam_participant->obtained_marks)
+                                                    ->where('obtained_marks', '>', $exam_participant->obtained_marks ?? 0)
                                                     ->count() + 1;
                                             @endphp
                                             <td> {{ $position ?? "" }} </td>
                                             <td>
-                                                <a href="{{ url('admin-panel/dashboard/exam-results/'. $exam_paper->id .'/exam-participants/'. $exam_participant->id .'/') }}" class="action-icon" id="view_button"> <i class="mdi mdi-eye"></i></a>
+                                                @if ($exam_participant->obtained_marks)
+                                                    <a href="{{ url('admin-panel/dashboard/exam-results/'. $exam_paper->id .'/exam-participants/'. $exam_participant->id .'/') }}" class="action-icon" id="view_button"> <i class="mdi mdi-eye"></i></a>
+                                                @else
+                                                    <a href="{{ url('admin-panel/dashboard/exam-results/'. $exam_paper->id .'/answer-papers/'. $exam_participant->id .'/') }}" class="" id="view_button"> Make Result</i></a>    
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

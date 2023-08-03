@@ -137,7 +137,7 @@ class ExamPaperController extends Controller {
             'name' => ['required', 'string', 'max:255'],
             'subject_id' => ['required', 'numeric', 'max:20'],
             'description' => ['required', 'string'],
-            'duration' => ['required', 'numeric', 'max:10'],
+            'duration' => ['required', 'numeric'],
             'total_mark' => ['required'],
             'per_question_mark' => ['required'],
             'per_question_mark' => ['required'],

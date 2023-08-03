@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('type')->default('SAQ')->comment('SAQ, MCQ, BOOLEAN, SORT_QUESTION');
             $table->text('correct_answer')->nullable();
             $table->string('given_answer')->nullable();
+            $table->float('marks', 8, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

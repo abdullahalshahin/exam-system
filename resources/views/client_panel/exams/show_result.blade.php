@@ -67,14 +67,94 @@
                                     @forelse ($exam_participant->answer_papers as $key => $answer_paper)
                                         <div class="col-md-12 mb-1">
                                             <div class="border p-3 rounded mb-3 mb-md-0">
-                                                <h5>{{ ++$key }}. {{ $answer_paper->question->title ?? "" }}</h5>
-                                                
-                                                <div class="mt-2">
-                                                    <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "A") ? "text-success" : "") : (($answer_paper->given_answer == "A") ? "text-danger" : (($answer_paper->correct_answer == "A") ? "text-success" : ""))) : (($answer_paper->correct_answer == "A") ? "text-primary" : "") }}">A. {{ $answer_paper->question->option_a ?? "" }}</p>
-                                                    <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "B") ? "text-success" : "") : (($answer_paper->given_answer == "B") ? "text-danger" : (($answer_paper->correct_answer == "B") ? "text-success" : ""))) : (($answer_paper->correct_answer == "B") ? "text-primary" : "") }}">B. {{ $answer_paper->question->option_b ?? "" }}</p>
-                                                    <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "C") ? "text-success" : "") : (($answer_paper->given_answer == "C") ? "text-danger" : (($answer_paper->correct_answer == "C") ? "text-success" : ""))) : (($answer_paper->correct_answer == "C") ? "text-primary" : "") }}">C. {{ $answer_paper->question->option_c ?? "" }}</p>
-                                                    <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "D") ? "text-success" : "") : (($answer_paper->given_answer == "D") ? "text-danger" : (($answer_paper->correct_answer == "D") ? "text-success" : ""))) : (($answer_paper->correct_answer == "D") ? "text-primary" : "") }}">D. {{ $answer_paper->question->option_d ?? "" }}</p>
-                                                </div> 
+                                                @if ($answer_paper->question->type == "SAQ")
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <h5>{{ ++$key }}. {{ $answer_paper->question->title ?? "" }}</h5>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "A") ? "text-success" : "") : (($answer_paper->given_answer == "A") ? "text-danger" : (($answer_paper->correct_answer == "A") ? "text-success" : ""))) : (($answer_paper->correct_answer == "A") ? "text-primary" : "") }}">A. {{ $answer_paper->question->option_a ?? "" }}</p>
+                                                            <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "B") ? "text-success" : "") : (($answer_paper->given_answer == "B") ? "text-danger" : (($answer_paper->correct_answer == "B") ? "text-success" : ""))) : (($answer_paper->correct_answer == "B") ? "text-primary" : "") }}">B. {{ $answer_paper->question->option_b ?? "" }}</p>
+                                                            <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "C") ? "text-success" : "") : (($answer_paper->given_answer == "C") ? "text-danger" : (($answer_paper->correct_answer == "C") ? "text-success" : ""))) : (($answer_paper->correct_answer == "C") ? "text-primary" : "") }}">C. {{ $answer_paper->question->option_c ?? "" }}</p>
+                                                            <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "D") ? "text-success" : "") : (($answer_paper->given_answer == "D") ? "text-danger" : (($answer_paper->correct_answer == "D") ? "text-success" : ""))) : (($answer_paper->correct_answer == "D") ? "text-primary" : "") }}">D. {{ $answer_paper->question->option_d ?? "" }}</p>
+                                                        </div>
+                                                    </div>
+                                                @elseif($answer_paper->question->type == "MCQ")
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <h5>{{ ++$key }}. {{ $answer_paper->question->title ?? "" }}</h5>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p class="m-0 p-0">A. {{ $answer_paper->question->option_a ?? "" }}</p>
+                                                            <p class="m-0 p-0">B. {{ $answer_paper->question->option_b ?? "" }}</p>
+                                                            <p class="m-0 p-0">C. {{ $answer_paper->question->option_c ?? "" }}</p>
+                                                            <p class="m-0 p-0">D. {{ $answer_paper->question->option_d ?? "" }}</p>
+                                                            <p class="m-0 p-0">E. {{ $answer_paper->question->option_e ?? "" }}</p>
+
+                                                            <p class="m-0 p-0 text-success">Correct Answer. {{ $answer_paper->question->correct_answer ?? "" }}</p>
+
+                                                            @php
+                                                                if ($answer_paper->given_answer) {
+                                                                    $mcq_given_answers = json_decode($answer_paper->given_answer, true);
+                                                                } else {
+                                                                    $mcq_given_answers = [];
+                                                                }
+                                                                
+                                                            @endphp
+
+                                                            <p class="m-0 p-0 text-success">Given Answer. @foreach ($mcq_given_answers as $mcq_given_answer)
+                                                                {{$mcq_given_answer}}, 
+                                                            @endforeach</p>
+                                                        </div>
+                                                    </div>
+                                                @elseif($answer_paper->question->type == "BOOLEAN")
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <h5>{{ ++$key }}. {{ $answer_paper->question->title ?? "" }}</h5>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "true") ? "text-success" : "") : (($answer_paper->given_answer == "true") ? "text-danger" : (($answer_paper->correct_answer == "true") ? "text-success" : ""))) : (($answer_paper->correct_answer == "true") ? "text-primary" : "") }}">A. True</p>
+                                                            <p class="m-0 p-0 {{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? (($answer_paper->given_answer == "false") ? "text-success" : "") : (($answer_paper->given_answer == "false") ? "text-danger" : (($answer_paper->correct_answer == "false") ? "text-success" : ""))) : (($answer_paper->correct_answer == "false") ? "text-primary" : "") }}">B. False</p>
+                                                        </div>
+                                                    </div>
+                                                @elseif($answer_paper->question->type == "SORT_QUESTION")
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <h5>{{ ++$key }}. {{ $answer_paper->question->title ?? "" }}</h5>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <textarea class="form-control" rows="5" disabled>{{ $answer_paper->given_answer ?? "" }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     @empty

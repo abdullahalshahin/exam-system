@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function() {
         Route::get('exam-results', [AdminControllers\ResultController::class, 'index']);
         Route::get('exam-results/{exam_paper}', [AdminControllers\ResultController::class, 'show']);
         Route::get('exam-results/{exam_paper}/exam-participants/{exam_participant}', [AdminControllers\ResultController::class, 'show_exam_participant']);
+        
+        Route::get('exam-results/{exam_paper}/answer-papers/{exam_participant}', [AdminControllers\AnswerPaperController::class, 'show_answer_paper']);
+        Route::post('exam-results/{exam_paper}/answer-papers/{exam_participant}/result-submit', [AdminControllers\AnswerPaperController::class, 'result_submit']);
 
         Route::resource('users', AdminControllers\UserController::class); 
         Route::resource('students', AdminControllers\StudentController::class); 

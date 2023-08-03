@@ -47,10 +47,9 @@
                                         @if ($exam_paper->per_question_negative_mark > 0)
                                             <p class="m-0 p-0 text-danger"><b>Per Question Negative Mark: </b> {{ $exam_paper->per_question_negative_mark ?? "0" }}</p>
                                         @endif
-                                        <p class="m-0 p-0"><b>Obtained Marks: </b> {{ $exam_participant->obtained_marks ?? "0" }}</p>
-                                        <p class="m-0 p-0"><b>Negative Marks: </b> {{ $exam_participant->negative_marks ?? "0" }}</p>
+                                        <p class="m-0 p-0"><b>Obtained Marks: </b> {{ $exam_paper_participant->obtained_marks ?? "0" }}</p>
+                                        <p class="m-0 p-0"><b>Negative Marks: </b> {{ $exam_paper_participant->negative_marks ?? "0" }}</p>
                                         <p class="m-0 p-0"><b>Total Participation: </b> {{ $total_participation ?? "_ _" }}</p>
-                                        <p class="m-0 p-0"><b>My Position: </b> {{ $position ?? "_ _" }}</p>
                                     </div>
                                 </div>
 
@@ -63,9 +62,12 @@
                                 </div>
                             </div>
 
-                            <div class="text-start mt-3">
-                                <div class="row mb-3">
-                                    @forelse ($exam_participant->answer_papers as $key => $answer_paper)
+                            <form action="{{ url('admin-panel/dashboard/exam-results/'. $exam_paper->id .'/answer-papers/'. $exam_participant->id .'/result-submit/') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="text-start mt-3">
+                                    <div class="row mb-3">
+                                        @forelse ($exam_participant->answer_papers as $key => $answer_paper)
                                             <div class="col-md-12 mb-1">
                                                 <div class="border p-3 rounded mb-3 mb-md-0">
                                                     @if ($answer_paper->question->type == "SAQ")
@@ -75,7 +77,7 @@
                                                             </div>
 
                                                             <div class="col-md-2">
-                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? "$exam_paper->per_question_mark" : "$exam_paper->per_question_negative_mark") : "0" }}" class="form-control" readonly>
                                                             </div>
                                                         </div>
 
@@ -94,7 +96,7 @@
                                                             </div>
 
                                                             <div class="col-md-2">
-                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="0" class="form-control">
                                                             </div>
                                                         </div>
 
@@ -129,7 +131,7 @@
                                                             </div>
 
                                                             <div class="col-md-2">
-                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ ($answer_paper->given_answer) ? (($answer_paper->correct_answer == $answer_paper->given_answer) ? "$exam_paper->per_question_mark" : "$exam_paper->per_question_negative_mark") : "0" }}" class="form-control" readonly>
                                                             </div>
                                                         </div>
 
@@ -146,7 +148,7 @@
                                                             </div>
 
                                                             <div class="col-md-2">
-                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="{{ $answer_paper->marks ?? "" }}" class="form-control" readonly>
+                                                                <input type="number" name="given_answer[{{ $answer_paper->question->id }}]" value="0" class="form-control">
                                                             </div>
                                                         </div>
 
@@ -159,10 +161,15 @@
                                                 </div>
                                             </div>
                                         @empty
-                                        <p class="text-center">Question Not Found !!!</p>
-                                    @endforelse
+                                            <p class="text-center">Question Not Found !!!</p>
+                                        @endforelse
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success"> Submit Result </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
